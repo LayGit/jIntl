@@ -4,6 +4,7 @@ import com.laylib.jintl.config.IntlConfig;
 import com.laylib.jintl.provider.MessageProvider;
 import com.laylib.jintl.provider.SourceProviderFactory;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -45,7 +46,13 @@ public class IntlSource {
 
         String message = sourceProvider.getMessage(code, locale);
         if (message == null) {
-            if (defaultMessage != null) {
+            // fallback to Locale without country
+            if (StringUtils.isNotEmpty(locale.getCountry()) && config.isFallbackLanguageOny()) {
+                message = sourceProvider.getMessage(code, Locale.forLanguageTag(locale.getLanguage()));
+            }
+
+            if (message == null && defaultMessage != null) {
+                // default message
                 message = defaultMessage;
             }
 
@@ -54,13 +61,7 @@ public class IntlSource {
             }
         }
 
-        if (message != null && ObjectUtils.isNotEmpty(args)) {
-            // format
-            MessageFormat messageFormat = new MessageFormat(message, locale);
-            message = messageFormat.format(args);
-        }
-
-        return message;
+        return formatMessage(message, args, locale);
     }
 
     public String getMessage(String code, Object[] args, Locale locale) {
@@ -73,5 +74,14 @@ public class IntlSource {
 
     public String getMessage(String code, Locale locale) {
         return getMessage(code, null, null, locale);
+    }
+
+    private String formatMessage(String message, Object[] args, Locale locale) {
+        if (StringUtils.isNotEmpty(message) && ObjectUtils.isNotEmpty(args)) {
+            // format
+            MessageFormat messageFormat = new MessageFormat(message, locale);
+            return messageFormat.format(args);
+        }
+        return message;
     }
 }

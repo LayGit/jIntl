@@ -17,7 +17,12 @@ public class IntlConfig {
     /**
      * is return code when message is null
      */
-    private boolean isUseCodeAsDefaultMessage;
+    private boolean useCodeAsDefaultMessage;
+
+    /**
+     * is fallback to Locale without country
+     */
+    private boolean fallbackLanguageOny;
 
     /**
      * config for provider

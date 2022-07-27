@@ -142,6 +142,7 @@ public class TestIntl {
         IntlConfig config = new IntlConfig();
         config.setProviderConfig(providerConfig);
         config.setUseCodeAsDefaultMessage(true);
+        config.setFallbackLanguageOny(true);
 
         IntlSource source = new IntlSource(config);
         String code = "http.internalServerError";

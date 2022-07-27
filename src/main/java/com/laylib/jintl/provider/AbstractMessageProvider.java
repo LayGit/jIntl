@@ -98,17 +98,11 @@ public abstract class AbstractMessageProvider implements MessageProvider {
     @Override
     public String getMessage(String code, Locale locale) {
         Properties props = localeCached.get(locale.toLanguageTag());
-        Properties langProps = localeCached.get(locale.getLanguage());
         String message = null;
 
         // full locale
         if (props != null) {
             message = props.getProperty(code);
-        }
-
-        // language only locale
-        if (message == null && langProps != null) {
-            message = langProps.getProperty(code);
         }
 
         return message;

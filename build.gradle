@@ -2,10 +2,13 @@ plugins {
     id 'java-library'
     id 'idea'
     id 'maven-publish'
+    id 'signing'
 
     // lombok
     id 'io.freefair.lombok' version '6.5.0.3'
 }
+
+apply from: System.getProperty("user.home") + '/Github/LayGit/publish.gradle'
 
 group 'com.laylib'
 version '1.0.0'
@@ -33,15 +36,56 @@ test {
     useJUnitPlatform()
 }
 
-jar {
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            pom {
+                name = 'jIntl'
+                description = 'a Java internationalization components'
+                url = 'https://jintl.laylib.com'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        name = 'Lay'
+                        email = 'jserlay@gmail.com'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/LayGit/jIntl'
+                    connection = 'scm:git:git://github.com/LayGit/jIntl.git'
+                    developerConnection = 'scm:git:ssh://git@github.com:LayGit/jIntl.git'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username sonatypeUsername
+                password sonatypePassword
+            }
+        }
     }
 }
 
-task fatJar(type: Jar, group: 'build') {
-    manifest.from jar.manifest
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+signing {
+    sign publishing.publications.mavenJava
+}
+
+javadoc {
+    options.addStringOption("charset", "UTF-8")
 }
