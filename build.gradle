@@ -50,22 +50,35 @@ publishing {
                 name = 'jIntl'
                 description = 'a Java internationalization components'
                 url = 'https://jintl.laylib.com'
+
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
                         url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
                     }
                 }
+
                 developers {
                     developer {
                         name = 'Lay'
                         email = 'jserlay@gmail.com'
                     }
                 }
+
                 scm {
                     url = 'https://github.com/LayGit/jIntl'
                     connection = 'scm:git:git://github.com/LayGit/jIntl.git'
                     developerConnection = 'scm:git:ssh://git@github.com:LayGit/jIntl.git'
+                }
+
+                withXml {
+                    asNode().dependencies.'*'.findAll() {
+                        it.scope.text() == 'runtime' && project.configurations.runtimeClasspath.allDependencies.find { dep ->
+                            dep.name == it.artifactId.text()
+                        }
+                    }.each() {
+                        it.scope*.value = 'compile'
+                    }
                 }
             }
         }
