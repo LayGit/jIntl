@@ -1,0 +1,9 @@
+global:
+  - en
+  - zh
+  - zh-CN
+user:
+  - en
+  - zh
+order:
+  - en
