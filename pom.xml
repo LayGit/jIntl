@@ -114,7 +114,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <source>${java.version}</source>
+                    <source>${maven.compiler.source}</source>
                     <additionalJOption>-Xdoclint:none</additionalJOption>
                     <failOnError>false</failOnError>
                 </configuration>
