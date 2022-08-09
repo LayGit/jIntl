@@ -1,42 +1,29 @@
-package com.laylib.jintl.parser;
+package com.laylib.jintl.util;
 
 import org.apache.commons.lang3.StringUtils;
-import org.yaml.snakeyaml.Yaml;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
- * yaml to properties
+ * Map Utils
  *
  * @author Lay
- * @since 1.0.0
  */
-public class YamlParser {
+public class MapUtils {
 
-    public static Properties parse(InputStream is, Charset charset) {
-        if (is != null) {
-            Yaml yaml = new Yaml();
-            Map<String, Object> map = null;
-            for (Object object : yaml.loadAll(new InputStreamReader(is, charset))) {
-                if (object != null) {
-                    map = asMap(object);
-                    map = getFlattenedMap(map);
-                }
-            }
-            if (map != null) {
-                Properties properties = new Properties();
-                properties.putAll(map);
-                return properties;
-            }
-        }
-        return null;
+    public boolean isEmpty(Map<?, ?> map) {
+        return map == null || map.isEmpty();
+    }
+
+    public boolean isNotEmpty(Map<?, ?> map) {
+        return !isEmpty(map);
     }
 
     @SuppressWarnings("unchecked")
-    private static Map<String, Object> asMap(Object object) {
+    public static Map<String, Object> asMap(Object object) {
         Map<String, Object> result = new LinkedHashMap<>();
         if (!(object instanceof Map)) {
             result.put("document", object);
@@ -59,7 +46,7 @@ public class YamlParser {
         return result;
     }
 
-    private static Map<String, Object> getFlattenedMap(Map<String, Object> source) {
+    public static Map<String, Object> getFlattenedMap(Map<String, Object> source) {
         Map<String, Object> result = new LinkedHashMap<>();
         buildFlattenedMap(result, source, null);
         return result;

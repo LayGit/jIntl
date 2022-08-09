@@ -1,8 +1,8 @@
 package com.laylib.jintl.test;
 
 import com.laylib.jintl.IntlSource;
+import com.laylib.jintl.config.DefaultProviderConfig;
 import com.laylib.jintl.config.IntlConfig;
-import com.laylib.jintl.config.LocalMessageProviderConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.yaml.snakeyaml.DumperOptions;
@@ -12,14 +12,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.nio.file.Path;
-import java.text.MessageFormat;
 import java.util.*;
 
 /**
- * test cases
+ * jIntl Tester
  *
  * @author Lay
- * @date 2022/7/25
  */
 public class TestIntl {
 
@@ -33,21 +31,18 @@ public class TestIntl {
         OPTIONS.setPrettyFlow(true);
     }
 
-    private LocalMessageProviderConfig getFileConfig() {
-        LocalMessageProviderConfig providerConfig = new LocalMessageProviderConfig();
+    private DefaultProviderConfig getFileConfig() {
+        DefaultProviderConfig providerConfig = new DefaultProviderConfig();
         File directory = new File("src/test/resources/intl");
         String root = directory.getAbsolutePath();
         providerConfig.setRoot(root);
-        providerConfig.setLocalResources(false);
         return providerConfig;
     }
 
     @Test
     public void testGetMessageMethods() {
         // resources
-        LocalMessageProviderConfig providerConfig = new LocalMessageProviderConfig();
-        providerConfig.setLocalResources(true);
-        testGetMessageMethods(providerConfig);
+        testGetMessageMethods(new DefaultProviderConfig());
 
         // file system
         testGetMessageMethods(getFileConfig());
@@ -55,8 +50,8 @@ public class TestIntl {
 
     @Test
     public void testWatchIndex() throws Exception {
-        LocalMessageProviderConfig providerConfig = getFileConfig();
-        providerConfig.setWatchIndex(true);
+        DefaultProviderConfig providerConfig = getFileConfig();
+        providerConfig.setIndexWatchInterval(1000L);
 
         // remove order tag
         Path indexPath = Path.of(providerConfig.getRoot(), providerConfig.getIndex());
@@ -69,9 +64,8 @@ public class TestIntl {
         }
 
         IntlConfig config = new IntlConfig();
-        config.setProviderConfig(providerConfig);
         config.setUseCodeAsDefaultMessage(true);
-        IntlSource source = new IntlSource(config);
+        IntlSource source = new IntlSource(config, providerConfig);
         Locale locale = Locale.ENGLISH;
 
 
@@ -97,8 +91,8 @@ public class TestIntl {
     public void testWatchSource() throws Exception {
         String fileName = "user/user_zh.yaml";
 
-        LocalMessageProviderConfig providerConfig = getFileConfig();
-        providerConfig.setWatchSource(true);
+        DefaultProviderConfig providerConfig = getFileConfig();
+        providerConfig.setSourceWatchInterval(1000L);
         IntlConfig config = new IntlConfig();
 
         // init value
@@ -111,11 +105,10 @@ public class TestIntl {
                 put("nameAlreadyExists", initValue);
             }
         });
-        yaml.dump(src, new FileWriter(filePath.toString(), config.getCharset()));
+        yaml.dump(src, new FileWriter(filePath.toString(), providerConfig.getCharset()));
 
-        config.setProviderConfig(providerConfig);
         config.setUseCodeAsDefaultMessage(true);
-        IntlSource source = new IntlSource(config);
+        IntlSource source = new IntlSource(config, providerConfig);
         Locale locale = Locale.CHINESE;
 
         String code = "user.nameAlreadyExists";
@@ -129,7 +122,7 @@ public class TestIntl {
                 put("nameAlreadyExists", changedValue);
             }
         });
-        yaml.dump(src, new FileWriter(filePath.toString(), config.getCharset()));
+        yaml.dump(src, new FileWriter(filePath.toString(), providerConfig.getCharset()));
 
         // sleep
         Thread.sleep(3000L);
@@ -138,13 +131,13 @@ public class TestIntl {
         Assertions.assertEquals(changedValue, msg);
     }
 
-    private void testGetMessageMethods(LocalMessageProviderConfig providerConfig) {
+    private void testGetMessageMethods(DefaultProviderConfig providerConfig) {
         IntlConfig config = new IntlConfig();
-        config.setProviderConfig(providerConfig);
         config.setUseCodeAsDefaultMessage(true);
-        config.setFallbackLanguageOny(true);
+        config.setFallbackLanguageOnly(true);
 
-        IntlSource source = new IntlSource(config);
+
+        IntlSource source = new IntlSource(config, providerConfig);
         String code = "http.internalServerError";
         Locale locale;
         String msg;
@@ -177,7 +170,7 @@ public class TestIntl {
         defaultMsg = "Login Failed: {0}";
         args = new Object[] { "wrong password" };
         msg = source.getMessage(code, args, defaultMsg, locale);
-        Assertions.assertEquals(MessageFormat.format(defaultMsg, args), msg);
+        Assertions.assertEquals(defaultMsg, msg);
 
         // getMessage fallback to code
         msg = source.getMessage(code, locale);

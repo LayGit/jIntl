@@ -1,19 +1,11 @@
 package com.laylib.jintl.config;
 
-import lombok.Data;
-
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-
 /**
- * jIntl configuration
+ * jIntl Configuration
  *
  * @author Lay
- * @since 1.0.0
  */
-@Data
 public class IntlConfig {
-
     /**
      * is return code when message is null
      */
@@ -22,15 +14,21 @@ public class IntlConfig {
     /**
      * is fallback to Locale without country
      */
-    private boolean fallbackLanguageOny;
+    private boolean fallbackLanguageOnly;
 
-    /**
-     * config for provider
-     */
-    private AbstractProviderConfig providerConfig;
+    public boolean isUseCodeAsDefaultMessage() {
+        return useCodeAsDefaultMessage;
+    }
 
-    /**
-     * source charset
-     */
-    private Charset charset = StandardCharsets.UTF_8;
+    public void setUseCodeAsDefaultMessage(boolean useCodeAsDefaultMessage) {
+        this.useCodeAsDefaultMessage = useCodeAsDefaultMessage;
+    }
+
+    public boolean isFallbackLanguageOnly() {
+        return fallbackLanguageOnly;
+    }
+
+    public void setFallbackLanguageOnly(boolean fallbackLanguageOnly) {
+        this.fallbackLanguageOnly = fallbackLanguageOnly;
+    }
 }
