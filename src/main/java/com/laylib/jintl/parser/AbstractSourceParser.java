@@ -4,7 +4,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Abstract implemetation of the {@link SourceParser} interface
+ * Abstract implementation of the {@link SourceParser} interface
  *
  * @author Lay
  */

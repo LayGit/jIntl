@@ -4,7 +4,7 @@ import com.laylib.jintl.config.DefaultProviderConfig;
 import com.laylib.jintl.loader.LocalSourceLoader;
 
 /**
- * Abstract implementation of the {@link MessageProvider} interface
+ * Default Message Provider
  *
  * @author Lay
  */
