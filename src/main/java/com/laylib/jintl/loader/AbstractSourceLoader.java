@@ -3,7 +3,6 @@ package com.laylib.jintl.loader;
 import com.laylib.jintl.config.BaseProviderConfig;
 import com.laylib.jintl.entity.SourceIndex;
 import com.laylib.jintl.formatter.SourceNameFormatter;
-import com.laylib.jintl.formatter.SourceNameFormatterFactory;
 import com.laylib.jintl.monitor.SourceMonitor;
 import com.laylib.jintl.monitor.listener.IndexChangedListener;
 import com.laylib.jintl.monitor.listener.SourceChangedListener;
@@ -31,7 +30,7 @@ public abstract class AbstractSourceLoader<T extends BaseProviderConfig> impleme
 
     public AbstractSourceLoader(T config) {
         this.config = config;
-        this.sourceNameFormatter = SourceNameFormatterFactory.build(config.getSourceNameFormatterClass(), config.getSourceFileExtension());
+        this.sourceNameFormatter = config.getSourceNameFormatter();
     }
 
     public void withMonitor(IndexChangedListener indexChangedListener, SourceChangedListener sourceChangedListener) {
@@ -54,6 +53,12 @@ public abstract class AbstractSourceLoader<T extends BaseProviderConfig> impleme
             sourceIndex.getItems().add(indexItem);
         }
         return sourceIndex;
+    }
+
+    public void onSourceIndex(SourceIndex sourceIndex) {
+        if (this.monitor != null && sourceIndex != null) {
+            this.monitor.watchSourcesWithIndex(sourceIndex);
+        }
     }
 
     @Override

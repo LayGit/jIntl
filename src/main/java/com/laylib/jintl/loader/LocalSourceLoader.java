@@ -74,11 +74,7 @@ public class LocalSourceLoader extends AbstractSourceLoader<DefaultProviderConfi
     private SourceIndex loadIndex(InputStream is) {
         Yaml yaml = new Yaml();
         Map<String, List<String>> props = yaml.load(is);
-        SourceIndex sourceIndex = resolveIndex(props);
-        if (this.monitor != null && sourceIndex != null) {
-            this.monitor.watchSourcesWithIndex(sourceIndex);
-        }
-        return sourceIndex;
+        return resolveIndex(props);
     }
 
     @Override

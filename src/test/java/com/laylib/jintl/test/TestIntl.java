@@ -3,8 +3,7 @@ package com.laylib.jintl.test;
 import com.laylib.jintl.IntlSource;
 import com.laylib.jintl.config.DefaultProviderConfig;
 import com.laylib.jintl.config.IntlConfig;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -19,6 +18,7 @@ import java.util.*;
  *
  * @author Lay
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestIntl {
 
     private final static DumperOptions OPTIONS = new DumperOptions();
@@ -40,6 +40,28 @@ public class TestIntl {
     }
 
     @Test
+    @Order(1)
+    public void testWarmUp() {
+        Thread thWarm = new Thread(() -> testWarmUp(true));
+        Thread thWithoutWarm = new Thread(() -> testWarmUp(false));
+        thWarm.start();
+        thWithoutWarm.start();
+    }
+
+    private void testWarmUp(boolean warmUp) {
+        DefaultProviderConfig providerConfig = new DefaultProviderConfig();
+
+        // warm up
+        providerConfig.setAutoWarmUp(warmUp);
+        IntlSource source = new IntlSource(new IntlConfig(), providerConfig);
+        long startTime = System.nanoTime();
+        source.getMessage("http.internalServerError", Locale.ENGLISH);
+        long endTime = System.nanoTime();
+        System.out.printf("execute in %d nanoseconds with warm up: %s \n", endTime - startTime, warmUp);
+    }
+
+    @Test
+    @Order(3)
     public void testGetMessageMethods() {
         // resources
         testGetMessageMethods(new DefaultProviderConfig());
@@ -49,6 +71,7 @@ public class TestIntl {
     }
 
     @Test
+    @Order(4)
     public void testWatchIndex() throws Exception {
         DefaultProviderConfig providerConfig = getFileConfig();
         providerConfig.setIndexWatchInterval(1000L);
@@ -88,6 +111,7 @@ public class TestIntl {
     }
 
     @Test
+    @Order(5)
     public void testWatchSource() throws Exception {
         String fileName = "user/user_zh.yaml";
 

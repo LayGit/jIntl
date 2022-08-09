@@ -2,6 +2,7 @@ package com.laylib.jintl.config;
 
 import com.laylib.jintl.formatter.MessageFormatter;
 import com.laylib.jintl.formatter.SourceNameFormatter;
+import com.laylib.jintl.formatter.SourceNameFormatterFactory;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -70,6 +71,15 @@ public abstract class BaseProviderConfig {
      * auto watch
      */
     private Boolean autoWatch;
+
+    /**
+     * auto warm up
+     */
+    private Boolean autoWarmUp;
+
+    public SourceNameFormatter getSourceNameFormatter() {
+        return SourceNameFormatterFactory.build(getSourceNameFormatterClass(), getSourceFileExtension());
+    }
 
     public Charset getCharset() {
         if (charset == null) {
@@ -167,5 +177,16 @@ public abstract class BaseProviderConfig {
 
     public void setAutoWatch(Boolean autoWatch) {
         this.autoWatch = autoWatch;
+    }
+
+    public Boolean getAutoWarmUp() {
+        if (autoWarmUp == null) {
+            return true;
+        }
+        return autoWarmUp;
+    }
+
+    public void setAutoWarmUp(Boolean autoWarmUp) {
+        this.autoWarmUp = autoWarmUp;
     }
 }
