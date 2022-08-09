@@ -37,6 +37,8 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
@@ -147,21 +149,18 @@
                 </configuration>
             </plugin>
 
-            <!-- gpg -->
+            <!-- sign -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>3.0.1</version>
                 <executions>
                     <execution>
-                        <id>sign-artifact</id>
+                        <id>sign-artifacts</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>sign</goal>
                         </goals>
-                        <configuration>
-                            <serverId>maven-public-sign</serverId>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -169,15 +168,9 @@
     </build>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>maven-public</id> <!-- 此处id与setting.xml中的服务id保持一致 -->
-            <name>oss Snapshots Repository</name>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
         <repository>
-            <id>maven-public</id> <!-- 此处id与setting.xml中的服务id保持一致 -->
-            <name>oss Staging Repository</name>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>maven-public</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
     </distributionManagement>
 </project>
