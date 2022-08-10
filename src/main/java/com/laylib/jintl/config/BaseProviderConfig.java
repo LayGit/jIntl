@@ -3,6 +3,7 @@ package com.laylib.jintl.config;
 import com.laylib.jintl.formatter.MessageFormatter;
 import com.laylib.jintl.formatter.SourceNameFormatter;
 import com.laylib.jintl.formatter.SourceNameFormatterFactory;
+import com.laylib.jintl.provider.AbstractMessageProvider;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -76,6 +77,10 @@ public abstract class BaseProviderConfig {
      * auto warm up
      */
     private Boolean autoWarmUp;
+
+    public abstract String getType();
+
+    public abstract Class<? extends AbstractMessageProvider<? extends BaseProviderConfig>> getProviderClass();
 
     public SourceNameFormatter getSourceNameFormatter() {
         return SourceNameFormatterFactory.build(getSourceNameFormatterClass(), getSourceFileExtension());

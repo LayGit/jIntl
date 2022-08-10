@@ -1,6 +1,6 @@
 package com.laylib.jintl.monitor;
 
-import com.laylib.jintl.config.DefaultProviderConfig;
+import com.laylib.jintl.config.BaseProviderConfig;
 import com.laylib.jintl.entity.SourceIndex;
 import com.laylib.jintl.formatter.SourceNameFormatter;
 import com.laylib.jintl.formatter.SourceNameFormatterFactory;
@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author Lay
  */
-public class LocalSourceMonitor extends AbstractSourceMonitor<DefaultProviderConfig> {
+public class LocalSourceMonitor extends AbstractSourceMonitor<BaseProviderConfig> {
 
     private static final Logger logger = LoggerFactory.getLogger(LocalSourceMonitor.class);
 
@@ -49,7 +49,7 @@ public class LocalSourceMonitor extends AbstractSourceMonitor<DefaultProviderCon
 
     private final ConcurrentMap<String, SourceIndex.SingleIndexItem> sourceFileItemMap;
 
-    public LocalSourceMonitor(DefaultProviderConfig config, IndexFileChangedListener indexChangedListener, SourceFileChangedListener sourceChangedListener) {
+    public LocalSourceMonitor(BaseProviderConfig config, IndexFileChangedListener indexChangedListener, SourceFileChangedListener sourceChangedListener) {
         super(config);
         this.indexChangedListener = indexChangedListener;
         this.sourceChangedListener = sourceChangedListener;

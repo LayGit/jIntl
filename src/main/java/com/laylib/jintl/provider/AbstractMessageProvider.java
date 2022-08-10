@@ -46,15 +46,10 @@ public abstract class AbstractMessageProvider<T extends BaseProviderConfig> impl
 
     private SourceIndex cachedSourceIndex;
 
-    public AbstractMessageProvider(T config, Class<? extends AbstractSourceLoader<T>> loaderCls) {
+    public AbstractMessageProvider(T config, AbstractSourceLoader<T> sourceLoader) {
         this.config = config;
         this.sourceNameFormatter = config.getSourceNameFormatter();
-
-        try {
-            this.sourceLoader = loaderCls.getDeclaredConstructor(config.getClass()).newInstance(config);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        this.sourceLoader = sourceLoader;
 
         init();
     }
@@ -110,6 +105,9 @@ public abstract class AbstractMessageProvider<T extends BaseProviderConfig> impl
      */
     public void warmUp() {
         for (PropertiesHolder holder : this.cachedMergedProperties.values()) {
+            if (holder.properties == null) {
+                continue;
+            }
             for (Object code : holder.properties.keySet()) {
                 getMessage(code.toString(), holder.locale);
             }

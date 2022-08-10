@@ -16,10 +16,12 @@
  */
 package com.laylib.jintl;
 
+import com.laylib.jintl.config.BaseProviderConfig;
 import com.laylib.jintl.config.DefaultProviderConfig;
 import com.laylib.jintl.config.IntlConfig;
 import com.laylib.jintl.provider.DefaultMessageProvider;
 import com.laylib.jintl.provider.MessageProvider;
+import com.laylib.jintl.provider.MessageProviderFactory;
 import com.laylib.jintl.util.StringUtils;
 
 import java.util.Locale;
@@ -71,8 +73,8 @@ public class IntlSource {
         this(null, messageProvider);
     }
 
-    public IntlSource(IntlConfig intlConfig, DefaultProviderConfig providerConfig) {
-        this(intlConfig, new DefaultMessageProvider(providerConfig));
+    public IntlSource(IntlConfig intlConfig, BaseProviderConfig providerConfig) {
+        this(intlConfig, MessageProviderFactory.build(providerConfig));
     }
 
     public IntlSource(DefaultProviderConfig providerConfig) {
