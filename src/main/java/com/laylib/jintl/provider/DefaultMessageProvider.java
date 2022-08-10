@@ -10,6 +10,6 @@ import com.laylib.jintl.loader.LocalSourceLoader;
  */
 public class DefaultMessageProvider extends AbstractMessageProvider<BaseProviderConfig> {
     public DefaultMessageProvider(BaseProviderConfig config) {
-        super(config, new LocalSourceLoader<>(config));
+        super(config, new LocalSourceLoader(config));
     }
 }

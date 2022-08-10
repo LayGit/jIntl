@@ -19,13 +19,13 @@ import java.util.*;
  *
  * @author Lay
  */
-public class LocalSourceLoader<T extends BaseProviderConfig> extends AbstractSourceLoader<T> {
+public class LocalSourceLoader extends AbstractSourceLoader<BaseProviderConfig> {
 
     private final boolean isClasspath;
 
     private final String rootPath;
 
-    public LocalSourceLoader(T config) {
+    public LocalSourceLoader(BaseProviderConfig config) {
         super(config);
         if (config.getRoot().startsWith("classpath:")) {
             isClasspath = true;
