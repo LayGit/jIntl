@@ -24,7 +24,11 @@
         <developer>
             <name>Lay</name>
             <email>jserlay@gmail.com</email>
-            <url>https://www.laylib.com</url>
+            <id>LayGit</id>
+            <roles>
+                <role>Owner</role>
+                <role>Committer</role>
+            </roles>
         </developer>
     </developers>
 
