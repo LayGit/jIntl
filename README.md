@@ -33,3 +33,6 @@ implementation 'com.laylib:jIntl:1.0.0'
 ```
 
 Then load gradle changes
+
+### Using with SpringBoot
+See [jIntl-spring-boot-starter](https://github.com/LayGit/jIntl-spring-boot-starter)
