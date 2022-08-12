@@ -4,6 +4,7 @@ import com.laylib.jintl.config.BaseProviderConfig;
 import com.laylib.jintl.entity.SourceIndex;
 import com.laylib.jintl.entity.SourceProperties;
 import com.laylib.jintl.monitor.LocalSourceMonitor;
+import com.laylib.jintl.monitor.SourceMonitor;
 import com.laylib.jintl.parser.SourceParser;
 import com.laylib.jintl.parser.SourceParserDetector;
 import org.yaml.snakeyaml.Yaml;
@@ -37,18 +38,18 @@ public class LocalSourceLoader extends AbstractSourceLoader<BaseProviderConfig> 
     }
 
     @Override
-    protected LocalSourceMonitor createMonitor() {
+    protected SourceMonitor createMonitor() {
         return new LocalSourceMonitor(config, this::onIndexChange, this::onSourceChange);
     }
 
-    private void onIndexChange(File file) {
+    protected void onIndexChange(File file) {
         try (InputStream is = new FileInputStream(file)) {
             SourceIndex sourceIndex = loadIndex(is);
             this.indexChangedListener.onChange(sourceIndex);
         } catch (Exception ignored) {}
     }
 
-    private void onSourceChange(String tag, Locale locale, File file) {
+    protected void onSourceChange(String tag, Locale locale, File file) {
         SourceParser sourceParser = SourceParserDetector.detect(file.getName(), config.getCharset());
         try (InputStream is = new FileInputStream(file)) {
             Properties props = sourceParser.parse(is);

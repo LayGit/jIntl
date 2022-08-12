@@ -14,7 +14,7 @@ public class SourceNameFormatterFactory {
 
     private static final String DEFAULT_EXTENSION = "yaml";
 
-    public static SourceNameFormatter build(Class<SourceNameFormatter> cls, String fileExtension) {
+    public static SourceNameFormatter build(Class<? extends  SourceNameFormatter> cls, String fileExtension) {
         if (fileExtension == null) {
             fileExtension = DEFAULT_EXTENSION;
         }

@@ -3,7 +3,8 @@ package com.laylib.jintl.config;
 import com.laylib.jintl.formatter.MessageFormatter;
 import com.laylib.jintl.formatter.SourceNameFormatter;
 import com.laylib.jintl.formatter.SourceNameFormatterFactory;
-import com.laylib.jintl.provider.AbstractMessageProvider;
+import com.laylib.jintl.loader.SourceLoader;
+import com.laylib.jintl.provider.MessageProvider;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -26,61 +27,61 @@ public abstract class BaseProviderConfig {
     /**
      * source charset
      */
-    private Charset charset;
+    protected Charset charset;
 
     /**
      * message formatter class
      */
-    private Class<MessageFormatter> messageFormatterClass;
+    protected Class<? extends  MessageFormatter> messageFormatterClass;
 
     /**
      * source name formatter class
      */
-    private Class<SourceNameFormatter> sourceNameFormatterClass;
+    protected Class<? extends  SourceNameFormatter> sourceNameFormatterClass;
 
     /**
      * source file extension
      */
-    private String sourceFileExtension;
+    protected String sourceFileExtension;
 
     /**
      * root of the source path
      */
-    private String root;
+    protected String root;
 
     /**
      * index filename
      */
-    private String index;
+    protected String index;
 
     /**
      * index watch interval
      */
-    private Long indexWatchInterval;
+    protected Long indexWatchInterval;
 
     /**
      * source watch interval
      */
-    private Long sourceWatchInterval;
+    protected Long sourceWatchInterval;
 
     /**
      * auto load
      */
-    private Boolean autoLoad;
+    protected Boolean autoLoad;
 
     /**
      * auto watch
      */
-    private Boolean autoWatch;
+    protected Boolean autoWatch;
 
     /**
      * auto warm up
      */
-    private Boolean autoWarmUp;
+    protected Boolean autoWarmUp;
 
-    public abstract String getType();
+    public abstract Class<? extends MessageProvider> getProviderClass();
 
-    public abstract Class<? extends AbstractMessageProvider<? extends BaseProviderConfig>> getProviderClass();
+    public abstract Class<? extends SourceLoader> getLoaderClass();
 
     public SourceNameFormatter getSourceNameFormatter() {
         return SourceNameFormatterFactory.build(getSourceNameFormatterClass(), getSourceFileExtension());
@@ -97,19 +98,19 @@ public abstract class BaseProviderConfig {
         this.charset = charset;
     }
 
-    public Class<MessageFormatter> getMessageFormatterClass() {
+    public Class<? extends MessageFormatter> getMessageFormatterClass() {
         return messageFormatterClass;
     }
 
-    public void setMessageFormatterClass(Class<MessageFormatter> messageFormatterClass) {
+    public void setMessageFormatterClass(Class<? extends MessageFormatter> messageFormatterClass) {
         this.messageFormatterClass = messageFormatterClass;
     }
 
-    public Class<SourceNameFormatter> getSourceNameFormatterClass() {
+    public Class<? extends SourceNameFormatter> getSourceNameFormatterClass() {
         return sourceNameFormatterClass;
     }
 
-    public void setSourceNameFormatterClass(Class<SourceNameFormatter> sourceNameFormatterClass) {
+    public void setSourceNameFormatterClass(Class<? extends SourceNameFormatter> sourceNameFormatterClass) {
         this.sourceNameFormatterClass = sourceNameFormatterClass;
     }
 

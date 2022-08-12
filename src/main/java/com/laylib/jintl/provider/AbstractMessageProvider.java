@@ -6,7 +6,7 @@ import com.laylib.jintl.entity.SourceProperties;
 import com.laylib.jintl.formatter.DefaultMessageFormatter;
 import com.laylib.jintl.formatter.MessageFormatter;
 import com.laylib.jintl.formatter.SourceNameFormatter;
-import com.laylib.jintl.loader.AbstractSourceLoader;
+import com.laylib.jintl.loader.SourceLoader;
 import com.laylib.jintl.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public abstract class AbstractMessageProvider<T extends BaseProviderConfig> impl
     /**
      * source loader
      */
-    protected final AbstractSourceLoader<T> sourceLoader;
+    protected final SourceLoader sourceLoader;
 
     /**
      * source name formatter
@@ -46,7 +46,7 @@ public abstract class AbstractMessageProvider<T extends BaseProviderConfig> impl
 
     private SourceIndex cachedSourceIndex;
 
-    public AbstractMessageProvider(T config, AbstractSourceLoader<T> sourceLoader) {
+    public AbstractMessageProvider(T config, SourceLoader sourceLoader) {
         this.config = config;
         this.sourceNameFormatter = config.getSourceNameFormatter();
         this.sourceLoader = sourceLoader;
@@ -267,11 +267,11 @@ public abstract class AbstractMessageProvider<T extends BaseProviderConfig> impl
 
         private final Properties properties;
 
-        private Class<MessageFormatter> messageFormatterClass;
+        private final Class<? extends MessageFormatter> messageFormatterClass;
 
         private final ConcurrentMap<String, Map<Locale, MessageFormatter>> cachedMessageFormatter = new ConcurrentHashMap<>();
 
-        public PropertiesHolder(Properties properties, Locale locale, Class<MessageFormatter> messageFormatterClass) {
+        public PropertiesHolder(Properties properties, Locale locale, Class<? extends  MessageFormatter> messageFormatterClass) {
             this.properties = properties;
             this.locale = locale;
             this.messageFormatterClass = messageFormatterClass;

@@ -19,6 +19,7 @@ package com.laylib.jintl;
 import com.laylib.jintl.config.BaseProviderConfig;
 import com.laylib.jintl.config.DefaultProviderConfig;
 import com.laylib.jintl.config.IntlConfig;
+import com.laylib.jintl.loader.LocalSourceLoader;
 import com.laylib.jintl.provider.DefaultMessageProvider;
 import com.laylib.jintl.provider.MessageProvider;
 import com.laylib.jintl.provider.MessageProviderFactory;
@@ -55,7 +56,8 @@ public class IntlSource {
         }
 
         if (messageProvider == null) {
-            messageProvider = new DefaultMessageProvider(new DefaultProviderConfig());
+            DefaultProviderConfig providerConfig = new DefaultProviderConfig();
+            messageProvider = new DefaultMessageProvider(providerConfig, new LocalSourceLoader(providerConfig));
         }
 
         this.config = config;
@@ -77,7 +79,7 @@ public class IntlSource {
         this(intlConfig, MessageProviderFactory.build(providerConfig));
     }
 
-    public IntlSource(DefaultProviderConfig providerConfig) {
+    public IntlSource(BaseProviderConfig providerConfig) {
         this(null, providerConfig);
     }
 

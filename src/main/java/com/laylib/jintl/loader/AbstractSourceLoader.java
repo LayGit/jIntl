@@ -33,6 +33,7 @@ public abstract class AbstractSourceLoader<T extends BaseProviderConfig> impleme
         this.sourceNameFormatter = config.getSourceNameFormatter();
     }
 
+    @Override
     public void withMonitor(IndexChangedListener indexChangedListener, SourceChangedListener sourceChangedListener) {
         this.indexChangedListener = indexChangedListener;
         this.sourceChangedListener = sourceChangedListener;
@@ -55,6 +56,7 @@ public abstract class AbstractSourceLoader<T extends BaseProviderConfig> impleme
         return sourceIndex;
     }
 
+    @Override
     public void onSourceIndex(SourceIndex sourceIndex) {
         if (this.monitor != null && sourceIndex != null) {
             this.monitor.watchSourcesWithIndex(sourceIndex);

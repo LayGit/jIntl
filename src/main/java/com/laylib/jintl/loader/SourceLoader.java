@@ -2,6 +2,8 @@ package com.laylib.jintl.loader;
 
 import com.laylib.jintl.entity.SourceIndex;
 import com.laylib.jintl.entity.SourceProperties;
+import com.laylib.jintl.monitor.listener.IndexChangedListener;
+import com.laylib.jintl.monitor.listener.SourceChangedListener;
 
 import java.util.List;
 import java.util.Locale;
@@ -21,7 +23,7 @@ public interface SourceLoader {
     /**
      * load all sources
      * @param index source index
-     * @return
+     * @return source list
      */
     List<SourceProperties> loadSources(SourceIndex index);
 
@@ -37,11 +39,30 @@ public interface SourceLoader {
      * get source path
      * @param tag       source tag
      * @param locale    locale
-     * @return
+     * @return source path
      */
     String getSourcePath(String tag, Locale locale);
-    
+
+    /**
+     * start monitor
+     */
     void startMonitor();
 
+    /**
+     * stop monitor
+     */
     void stopMonitor();
+
+    /**
+     * on source index loaded
+     * @param sourceIndex index
+     */
+    void onSourceIndex(SourceIndex sourceIndex);
+
+    /**
+     * register monitor listeners
+     * @param indexChangedListener  index changed listener
+     * @param sourceChangedListener source changed listener
+     */
+    void withMonitor(IndexChangedListener indexChangedListener, SourceChangedListener sourceChangedListener);
 }
