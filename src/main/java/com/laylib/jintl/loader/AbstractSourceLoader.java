@@ -66,13 +66,8 @@ public abstract class AbstractSourceLoader<T extends BaseProviderConfig> impleme
     @Override
     public void startMonitor() {
         if (this.monitor != null) {
-            if (config.getIndexWatchInterval() != null && config.getIndexWatchInterval() > 0) {
-                this.monitor.startIndexMonitor();
-            }
-
-            if (config.getSourceWatchInterval() != null && config.getSourceWatchInterval() > 0) {
-                this.monitor.startSourceMonitor();
-            }
+            this.monitor.startIndexMonitor();
+            this.monitor.startSourceMonitor();
         }
     }
 

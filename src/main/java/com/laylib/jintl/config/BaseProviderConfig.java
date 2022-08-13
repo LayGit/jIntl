@@ -55,16 +55,6 @@ public abstract class BaseProviderConfig {
     protected String index;
 
     /**
-     * index watch interval
-     */
-    protected Long indexWatchInterval;
-
-    /**
-     * source watch interval
-     */
-    protected Long sourceWatchInterval;
-
-    /**
      * auto load
      */
     protected Boolean autoLoad;
@@ -145,22 +135,6 @@ public abstract class BaseProviderConfig {
 
     public void setIndex(String index) {
         this.index = index;
-    }
-
-    public Long getIndexWatchInterval() {
-        return indexWatchInterval;
-    }
-
-    public void setIndexWatchInterval(Long indexWatchInterval) {
-        this.indexWatchInterval = indexWatchInterval;
-    }
-
-    public Long getSourceWatchInterval() {
-        return sourceWatchInterval;
-    }
-
-    public void setSourceWatchInterval(Long sourceWatchInterval) {
-        this.sourceWatchInterval = sourceWatchInterval;
     }
 
     public Boolean getAutoLoad() {

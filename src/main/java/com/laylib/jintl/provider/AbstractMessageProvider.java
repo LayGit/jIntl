@@ -55,9 +55,7 @@ public abstract class AbstractMessageProvider<T extends BaseProviderConfig> impl
     }
 
     protected void init() {
-        if (config.getSourceWatchInterval() != null || config.getIndexWatchInterval() != null) {
-            this.sourceLoader.withMonitor(this::resolveIndexChanged, this::refreshCache);
-        }
+        this.sourceLoader.withMonitor(this::resolveIndexChanged, this::refreshCache);
 
         if (config.getAutoLoad()) {
             load();

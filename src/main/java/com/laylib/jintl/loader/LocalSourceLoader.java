@@ -1,6 +1,6 @@
 package com.laylib.jintl.loader;
 
-import com.laylib.jintl.config.BaseProviderConfig;
+import com.laylib.jintl.config.LocalProviderConfig;
 import com.laylib.jintl.entity.SourceIndex;
 import com.laylib.jintl.entity.SourceProperties;
 import com.laylib.jintl.monitor.LocalSourceMonitor;
@@ -20,13 +20,13 @@ import java.util.*;
  *
  * @author Lay
  */
-public class LocalSourceLoader extends AbstractSourceLoader<BaseProviderConfig> {
+public class LocalSourceLoader extends AbstractSourceLoader<LocalProviderConfig> {
 
     private final boolean isClasspath;
 
     private final String rootPath;
 
-    public LocalSourceLoader(BaseProviderConfig config) {
+    public LocalSourceLoader(LocalProviderConfig config) {
         super(config);
         if (config.getRoot().startsWith("classpath:")) {
             isClasspath = true;

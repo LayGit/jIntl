@@ -1,7 +1,7 @@
 package com.laylib.jintl.test;
 
 import com.laylib.jintl.IntlSource;
-import com.laylib.jintl.config.DefaultProviderConfig;
+import com.laylib.jintl.config.LocalProviderConfig;
 import com.laylib.jintl.config.IntlConfig;
 import org.junit.jupiter.api.*;
 import org.yaml.snakeyaml.DumperOptions;
@@ -31,8 +31,8 @@ public class TestIntl {
         OPTIONS.setPrettyFlow(true);
     }
 
-    private DefaultProviderConfig getFileConfig() {
-        DefaultProviderConfig providerConfig = new DefaultProviderConfig();
+    private LocalProviderConfig getFileConfig() {
+        LocalProviderConfig providerConfig = new LocalProviderConfig();
         File directory = new File("src/test/resources/intl");
         String root = directory.getAbsolutePath();
         providerConfig.setRoot(root);
@@ -49,7 +49,7 @@ public class TestIntl {
     }
 
     private void testWarmUp(boolean warmUp) {
-        DefaultProviderConfig providerConfig = new DefaultProviderConfig();
+        LocalProviderConfig providerConfig = new LocalProviderConfig();
 
         // warm up
         providerConfig.setAutoWarmUp(warmUp);
@@ -64,7 +64,7 @@ public class TestIntl {
     @Order(3)
     public void testGetMessageMethods() {
         // resources
-        testGetMessageMethods(new DefaultProviderConfig());
+        testGetMessageMethods(new LocalProviderConfig());
 
         // file system
         testGetMessageMethods(getFileConfig());
@@ -73,7 +73,7 @@ public class TestIntl {
     @Test
     @Order(4)
     public void testWatchIndex() throws Exception {
-        DefaultProviderConfig providerConfig = getFileConfig();
+        LocalProviderConfig providerConfig = getFileConfig();
         providerConfig.setIndexWatchInterval(1000L);
 
         // remove order tag
@@ -115,7 +115,7 @@ public class TestIntl {
     public void testWatchSource() throws Exception {
         String fileName = "user/user_zh.yaml";
 
-        DefaultProviderConfig providerConfig = getFileConfig();
+        LocalProviderConfig providerConfig = getFileConfig();
         providerConfig.setSourceWatchInterval(1000L);
         IntlConfig config = new IntlConfig();
 
@@ -155,7 +155,7 @@ public class TestIntl {
         Assertions.assertEquals(changedValue, msg);
     }
 
-    private void testGetMessageMethods(DefaultProviderConfig providerConfig) {
+    private void testGetMessageMethods(LocalProviderConfig providerConfig) {
         IntlConfig config = new IntlConfig();
         config.setUseCodeAsDefaultMessage(true);
         config.setFallbackLanguageOnly(true);
