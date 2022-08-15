@@ -14,7 +14,7 @@ Add the dependency to your pom.xml file:
 <dependency>
     <groupId>com.laylib</groupId>
     <artifactId>jIntl</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
@@ -29,7 +29,7 @@ mvn install
 Add the dependency to your build.gradle file:
 
 ```
-implementation 'com.laylib:jIntl:1.0.0'
+implementation 'com.laylib:jIntl:2.0.0'
 ```
 
 Then load gradle changes
